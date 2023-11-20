@@ -1,0 +1,6 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+
+# after some investigation, looks like Stan was right, -text should do the job
+* -text
