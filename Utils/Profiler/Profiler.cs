@@ -108,7 +108,7 @@ namespace Utils.Profiler
         {
             IProfilerLog log = m_logDebug;
             if (!log.Enabled()) return;
-            using (ColorConsole.UseColors(ConsoleColor.Yellow, ConsoleColor.Gray))
+            using (ColorConsole.UseColors(ConsoleColor.Blue, ConsoleColor.Gray))
             {
                 SimpleProfiler.Trace("DBG", log, 0, " " + format, args);
             }
@@ -118,7 +118,7 @@ namespace Utils.Profiler
         {
             IProfilerLog log = m_logWarn;
             if (!log.Enabled()) return;
-            using (ColorConsole.UseColors(ConsoleColor.Blue, ConsoleColor.Gray))
+            using (ColorConsole.UseColors(ConsoleColor.Yellow, ConsoleColor.Gray))
             {
                 warnCount++;
                 SimpleProfiler.Trace("WRN", log, 0, " " + format, args);
