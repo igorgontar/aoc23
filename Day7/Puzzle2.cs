@@ -1,4 +1,3 @@
-
 class Puzzle2
 {
     const StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries;
@@ -6,19 +5,29 @@ class Puzzle2
     public static long Solve(string file)
     {
         using var reader = new StreamReader(file);
-        //string time = string.Concat(reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions));
-        long t = long.Parse(
-            reader.ReadLine()
-            .Split(':', splitOptions)[1]
-            .Split(' ',splitOptions)
-            .Aggregate((x,y) => x+y)
-        );
 
-        string dist = string.Concat(reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions));
-        long d = long.Parse(dist);
+        SortedSet<Hand2> hands = new(Hand2.Comparer);
+        
+        string line = null;
+        while((line = reader.ReadLine()) != null)
+        {
+            if (string.IsNullOrWhiteSpace(line)) continue;
+            var split = line.Split(' ', splitOptions);
+            var h = split[0];
+            int bid = int.Parse(split[1]);
+            var hand = new Hand2(h, bid);
+            hands.Add(hand);
+            
+        }
 
-        var r = new Race { time = t , dist = d };
-        long c = Algo.CalcNumberOfWays(r);
-        return c;
+        long sum = 0;
+        int rank = 0;
+        foreach (var hand in hands)
+        {
+            ++rank;
+            sum += (rank * hand.bid);
+        }
+
+        return sum;
     }
 }

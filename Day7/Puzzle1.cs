@@ -1,26 +1,3 @@
-class Race
-{
-    public long time;
-    public long dist;
-}
-
-class Algo
-{
-    public static long CalcNumberOfWays(Race r)
-    {
-        long count = 0;
-        for(long i=0; i<r.time; i++)
-        {
-            long speed = i;
-            long t = r.time - i;
-            long d = t * speed;
-            if(d > r.dist)
-                count++; 
-        }
-        return count;
-    }
-}
-
 class Puzzle1
 {
     const StringSplitOptions splitOptions = StringSplitOptions.RemoveEmptyEntries|StringSplitOptions.TrimEntries;
@@ -28,10 +5,29 @@ class Puzzle1
     public static long Solve(string file)
     {
         using var reader = new StreamReader(file);
-        long[] times = reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions).Select(long.Parse).ToArray();
-        long[] distances = reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions).Select(long.Parse).ToArray();
-        Race[] races = times.Select((t,i) => new Race {time=t, dist=distances[i]}).ToArray();
-        long mult = races.Select(Algo.CalcNumberOfWays).Aggregate((x,y) => x*y);
-        return mult;
+
+        SortedSet<Hand1> hands = new(Hand1.Comparer);
+        
+        string line = null;
+        while((line = reader.ReadLine()) != null)
+        {
+            if (string.IsNullOrWhiteSpace(line)) continue;
+            var split = line.Split(' ', splitOptions);
+            var h = split[0];
+            int bid = int.Parse(split[1]);
+            var hand = new Hand1(h, bid);
+            hands.Add(hand);
+            
+        }
+
+        long sum = 0;
+        int rank = 0;
+        foreach (var hand in hands)
+        {
+            ++rank;
+            sum += (rank * hand.bid);
+        }
+
+        return sum;
     }
 }
