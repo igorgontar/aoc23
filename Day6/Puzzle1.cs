@@ -28,10 +28,10 @@ class Puzzle1
     public static long Solve(string file)
     {
         using var reader = new StreamReader(file);
-        long[] times = reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions).Select(long.Parse).ToArray();
-        long[] distances = reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions).Select(long.Parse).ToArray();
+        long[] times = reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions).Select(s => long.Parse(s)).ToArray();
+        long[] distances = reader.ReadLine().Split(':', splitOptions)[1].Split(' ',splitOptions).Select(s => long.Parse(s)).ToArray();
         Race[] races = times.Select((t,i) => new Race {time=t, dist=distances[i]}).ToArray();
-        long mult = races.Select(Algo.CalcNumberOfWays).Aggregate((x,y) => x*y);
+        long mult = races.Select(r => Algo.CalcNumberOfWays(r)).Aggregate((x,y) => x*y);
         return mult;
     }
 }
