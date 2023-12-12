@@ -13,8 +13,6 @@ class Puzzle1
             if (string.IsNullOrWhiteSpace(line)) continue;
 
             long[] a = line.Split(' ', splitOptions).Select(s => long.Parse(s)).ToArray();
-            long res = Algo.Extrapolate(a);
-            sum += res;
         }
 
         return sum;
