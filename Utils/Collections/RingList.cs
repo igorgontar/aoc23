@@ -1,44 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Utils.Collections
 {
-    public class RingList<E> : IEnumerable<E>  
+    public class RingList<E> : IEnumerable<E> 
     {
         private readonly E[] items;
         private int head;
         private int tail;
         private int count;
-	
-	    public RingList(int capacity) {
+       
+            public RingList(int capacity) {
             this.items = new E[capacity];
-	    }
-    
-	    public int capacity() { return items.Length; }
-	
-	    private int inc(int i) {
+            }
+   
+            public int capacity() { return items.Length; }
+       
+            private int inc(int i) {
             return (++i == items.Length) ? 0 : i;
         }
-    
-	    private int dec(int i) {
+   
+            private int dec(int i) {
             return (--i == -1) ? (items.Length-1) : i;
         }
-    
-	    private void addTail(E x) {
+   
+            private void addTail(E x) {
             items[tail] = x;
             tail = inc(tail);
             ++count;
         }
 
-	    private void addHead(E x) {
+            private void addHead(E x) {
             head = dec(head);
             items[head] = x;
             ++count;
         }
 
-	    private E removeTail() {
+            private E removeTail() {
             E[] items = this.items;
             tail = dec(tail);
             E x = items[tail];
@@ -46,8 +44,8 @@ namespace Utils.Collections
             --count;
             return x;
         }
-    
-	    private E removeHead() {
+   
+            private E removeHead() {
             E[] items = this.items;
             E x = items[head];
             items[head] = default(E);
@@ -55,7 +53,7 @@ namespace Utils.Collections
             --count;
             return x;
         }
-    
+   
         private E removeAt(int i) {
             E[] items = this.items;
             // if removing front item, just advance
@@ -73,7 +71,7 @@ namespace Utils.Collections
                         i = next;
                     } else {
                         e = items[i];
-                	    items[i] = default(E);
+                     items[i] = default(E);
                         tail = i;
                         break;
                     }
@@ -84,48 +82,67 @@ namespace Utils.Collections
         }
 
         private int indexToPosition(int i) {
-    	    //int n = (head + i) % items.length;
-    	    int n = head + i;
-    	    n = n < items.Length ? n : (n-items.Length);
-    	    return n;
-        }
-    
-        public E get(int i) {
-    	    if(i<0 || i>=count)
-    		    throw new IndexOutOfRangeException();
-    	    int n = indexToPosition(i);
-    	    return items[n];
-        }
-    
-        public E set(int i, E e) {
-    	    if(i<0 || i>=count)
-    		    throw new IndexOutOfRangeException();
-    	    E[] items = this.items; 
-    	    int n = indexToPosition(i);
-    	    E x = items[n];
-    	    items[n] = e;
-    	    return x;
-        }
-    
-        public void addHeadAndRoll(E e) {
-    	    if(count > 0 && count == items.Length)
-    		    removeTail();
-    	    addHead(e);
+             //int n = (head + i) % items.length;
+             int n = head + i;
+             n = n < items.Length ? n : (n-items.Length);
+             return n;
         }
 
-        public void addTailAndRoll(E e) {
-    	    if(count > 0 && count == items.Length)
-    		    removeHead();
-    	    addTail(e);
+        public E getHead()
+        {
+            if(count==0)
+                return default(E);
+            return items[head];
+        }
+
+        public E getTail()
+        {
+            if(count==0)
+                return default(E);
+            int n = indexToPosition(count-1);
+            return items[n];
         }
    
-        public E remove(int i) {
-    	    if(i<0 || i>=count)
-    		    throw new IndexOutOfRangeException();
-    	    int n = indexToPosition(i);
-    	    return removeAt(n);
+        public E get(int i) {
+             if(i<0 || i>=count)
+                     throw new IndexOutOfRangeException();
+             int n = indexToPosition(i);
+             return items[n];
         }
-    
+   
+        public E set(int i, E e) {
+             if(i<0 || i>=count)
+                     throw new IndexOutOfRangeException();
+             E[] items = this.items;
+             int n = indexToPosition(i);
+             E x = items[n];
+             items[n] = e;
+             return x;
+        }
+   
+        public E addHeadAndRoll(E e) {
+             E removed = default(E);
+            if(count > 0 && count == items.Length)
+                     removed = removeTail();
+             addHead(e);
+            return removed;
+        }
+
+        public E addTailAndRoll(E e) {
+             E removed = default(E);
+             if(count > 0 && count == items.Length)
+                     removed = removeHead();
+             addTail(e);
+            return removed;
+        }
+  
+        public E remove(int i) {
+             if(i<0 || i>=count)
+                     throw new IndexOutOfRangeException();
+             int n = indexToPosition(i);
+             return removeAt(n);
+        }
+   
         public bool remove(E o) {
             E[] items = this.items;
             int i = head;
@@ -141,25 +158,25 @@ namespace Utils.Collections
             }
         }
 
-	    public int indexOf(E o) {
+            public int indexOf(E o) {
             E[] items = this.items;
-	        int i = head;
-	        int k = 0;
-	        while (k < count) {
-	            if (object.Equals(o, items[i]))
-	                return k;
-	            i = inc(i);
-	            k++;
-	        }
+                int i = head;
+                int k = 0;
+                while (k < count) {
+                    if (object.Equals(o, items[i]))
+                        return k;
+                    i = inc(i);
+                    k++;
+                }
             return -1;
-	    }
+            }
 
         public bool contains(E o) {
             return indexOf(o) >= 0;
         }
 
         public int size() {
-    	    return count;
+             return count;
         }
 
         public void clear() {
@@ -175,7 +192,7 @@ namespace Utils.Collections
             head = 0;
         }
 
-	    public E[] toArray() {
+            public E[] toArray() {
             E[] items = this.items;
             E[] a = new E[count];
             int k = 0;
@@ -185,7 +202,7 @@ namespace Utils.Collections
                 i = inc(i);
             }
             return a;
-	    }
+            }
 
         public IEnumerator<E> GetEnumerator()
         {

@@ -8,7 +8,7 @@
             "args": [
                 "build",
                 "--no-restore",
-                "${workspaceFolder}/Day9/Day9.csproj",
+                "${workspaceFolder}/Day11/Day11.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
