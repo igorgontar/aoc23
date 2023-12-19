@@ -1,0 +1,22 @@
+
+   
+???##???????#??? 3,1,2
+xxx.x.xx.                
+ xxx.x.xx                
+  xxx.x.xx.                
+   xxx.x.xx.                
+    xxx.x.xx.                
+     xxx.x.xx.                
+      xxx.x.xx.                
+       xxx.x.xx.                
+        xxx.x.xx                
+xxx..x..xx.                
+ xxx..x..xx                
+  xxx.x.xx.                
+   xxx.x.xx.                
+    xxx.x.xx.                
+     xxx.x.xx.                
+      xxx.x.xx.                
+       xxx.x.xx.                
+        xxx.x.xx                
+

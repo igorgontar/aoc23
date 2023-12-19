@@ -4,17 +4,25 @@ class Puzzle1
 
     public static long Solve(string file)
     {
+        Grid grid = new();
+        Point start = null; 
+        
+        int y = 0;
         using var reader = new StreamReader(file);
-
-        long sum = 0;
-        string line;
-        while ((line = reader.ReadLine()) != null)
+        foreach (var line in reader.NonEmptyLines())
         {
-            if (string.IsNullOrWhiteSpace(line)) continue;
+            int x = line.IndexOf('S');
+            if(x >= 0)
+            {
+                start = new Point(x, y);
+            }
 
-            long[] a = line.Split(' ', splitOptions).Select(s => long.Parse(s)).ToArray();
+            grid.Add(line.ToList());        
+            y++;
         }
 
-        return sum;
+        int steps = Algo.WalkTheLoop(grid, start);
+
+        return steps/2;
     }
 }

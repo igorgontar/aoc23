@@ -38,7 +38,7 @@ class Puzzle2
             return c;
         }).ToArray();
 
-        counts.Print();
+        counts.print();
         
         long res = AocMath.LCM(counts);
 

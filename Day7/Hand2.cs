@@ -1,5 +1,3 @@
-using Utils.Profiler;
-
 class Hand2
 {
     public static readonly HandComparer Comparer = new ();
@@ -50,9 +48,9 @@ class Hand2
                     dict[c] = count+1;
             }
             var sorted = dict.Values.Order().ToArray();
-            if(cmp(sorted,     3)) return 7; // five
-            if(cmp(sorted,   1,2)) return 6; // four
-            if(cmp(sorted, 1,1,1)) return 4; // three
+            if(sorted.eq(    3)) return 7; // five
+            if(sorted.eq(  1,2)) return 6; // four
+            if(sorted.eq(1,1,1)) return 4; // three
 
             return 1;
         }
@@ -73,25 +71,15 @@ class Hand2
                 dict[c] = count+1;
         }
         var sorted = dict.Values.Order().ToArray();
-        if(cmp(sorted,         5)) return 7;
-        if(cmp(sorted,       1,4)) return 6;
-        if(cmp(sorted,       2,3)) return 5;
-        if(cmp(sorted,     1,1,3)) return 4;
-        if(cmp(sorted,     1,2,2)) return 3;
-        if(cmp(sorted,   1,1,1,2)) return 2;
-        if(cmp(sorted, 1,1,1,1,1)) return 1;
+        if(sorted.eq(        5)) return 7;
+        if(sorted.eq(      1,4)) return 6;
+        if(sorted.eq(      2,3)) return 5;
+        if(sorted.eq(    1,1,3)) return 4;
+        if(sorted.eq(    1,2,2)) return 3;
+        if(sorted.eq(  1,1,1,2)) return 2;
+        if(sorted.eq(1,1,1,1,1)) return 1;
         
         throw new Exception("invalid hand type of cards");
-    }
-
-    static bool cmp(int[] a1, params int[] a2)
-    {
-        if(a1.Length != a2.Length) 
-            return false;
-        for(int i=0; i<a1.Length; i++)
-            if(a1[i] != a2[i])
-                return false;
-        return true;         
     }
 
     public class HandComparer : IComparer<Hand2>

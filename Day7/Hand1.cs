@@ -1,3 +1,5 @@
+using static ListExt;
+
 class Hand1
 {
     public static readonly HandComparer Comparer = new ();
@@ -65,16 +67,6 @@ class Hand1
  #endif
         
         throw new Exception("invalid hand type of cards");
-    }
-
-    static bool cmp(int[] a1, params int[] a2)
-    {
-        if(a1.Length != a2.Length) 
-            return false;
-        for(int i=0; i<a1.Length; i++)
-            if(a1[i] != a2[i])
-                return false;
-        return true;         
     }
 
     public class HandComparer : IComparer<Hand1>

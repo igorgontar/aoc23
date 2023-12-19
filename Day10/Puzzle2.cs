@@ -4,17 +4,35 @@ class Puzzle2
 
     public static long Solve(string file)
     {
+        Grid grid = new();
+        Point start = null;
+
+        int y = 0;
         using var reader = new StreamReader(file);
-
-        long sum = 0;
-        string line;
-        while ((line = reader.ReadLine()) != null)
+        foreach (var line in reader.NonEmptyLines())
         {
-            if (string.IsNullOrWhiteSpace(line)) continue;
+            int x = line.IndexOf('S');
+            if (x >= 0)
+            {
+                start = new Point(x, y);
+            }
 
-            long[] a = line.Split(' ', splitOptions).Select(s => long.Parse(s)).ToArray();
+            grid.Add(line.ToList());
+            y++;
         }
 
-        return sum;
+        int count = 0;
+        Polygon p = Algo.WalkTheLoop2(grid, start);
+        for (y = 0; y < grid.Count; y++)
+        {
+            for (int x = 0; x < grid[y].Count; x++)
+            {
+                var pt = new Point(x,y);
+                if(p.Contains(pt))
+                    count++;
+            }
+        }
+
+        return count;
     }
 }
