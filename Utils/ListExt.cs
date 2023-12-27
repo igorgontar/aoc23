@@ -19,13 +19,31 @@ public static class ListExt
     {
         if (a1.Length != a2.Length)
             return false;
+        
+        // avoid looping for trivial edge cases 
+        if (a1.Length == 0)
+            return true; 
+
+        if (a1.Length == 1)
+            return a1[0] == a2[0]; 
+
         for (int i = 0; i < a1.Length; i++)
             if (a1[i] != a2[i])
                 return false;
         return true;
     }
 
-    public static bool iside(this int x, params int[] a)
+    public static bool inside(this int x, params int[] a)
+    {
+        if (a.Length == 0)
+            return false;
+        for (int i = 0; i < a.Length; i++)
+            if (x == a[i])
+                return true;
+        return false;
+    }
+
+    public static bool inside(this char x, params char[] a)
     {
         if (a.Length == 0)
             return false;

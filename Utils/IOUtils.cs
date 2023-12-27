@@ -4,10 +4,15 @@ public static class IOUtils
 
     public static void print(string format, params object[] args)
     {
+        log.Write(format, args);
+    }
+
+    public static void println(string format, params object[] args)
+    {
         log.WriteLine(format, args);
     }
 
-    public static void print<T>(this IEnumerable<T> list)
+    public static void println<T>(this IEnumerable<T> list)
     {
         var s = string.Join(',', list);
         log.WriteLine(s);

@@ -19,7 +19,10 @@ class Puzzle1
             var split = line.Split(' ', splitOptions);
             string springs = split[0]; 
             int[] runs = split[1].Split(',', splitOptions).Select(s => int.Parse(s)).ToArray();
-            int count = CountArrangements(springs, runs);
+
+            Cache cache = new();
+            long count = CountWays1(springs, runs);
+            //long count = CountWays2(cache, springs, runs);
             sum += count;
 
             //var t = DateTime.Now;

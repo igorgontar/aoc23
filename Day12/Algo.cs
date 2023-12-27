@@ -1,3 +1,33 @@
+using Utils.Collections;
+
+class Key
+{
+    public string line;
+    public int[] runs;
+
+    public override bool Equals(object obj)
+    {
+        Key o = (Key)obj;
+        if(o == null) return false;
+
+        return line == o.line && runs.eq(o.runs);
+    }
+
+    public override int GetHashCode()
+    {
+        int code = line.GetHashCode();
+        for(int i=0; i<runs.Length; i++)
+        {
+            int h = runs[i].GetHashCode();
+            code ^= (h << 4);   
+        }
+
+        return code;
+    }
+}
+
+class Cache : Dictionary<Key,long> {}
+
 class Algo
 {
     public static IEnumerable<char[]> CharCombinations(int N)
@@ -20,7 +50,7 @@ class Algo
         }
     }
 
-    public static int CountArrangements(string springs, int[] runs)
+    public static int CountWays1(string springs, int[] runs)
     {
         char[] spa = springs.ToCharArray();
         
@@ -41,8 +71,9 @@ class Algo
             }
             //spa.print();
             
-            int[] nums = CalcDamaged(spa);
-            if(nums.eq(runs))
+            int[] nums = null; 
+            bool match = CalcDamaged(spa, runs, out nums);
+            if(match && nums.eq(runs))
                 count++;
         }
 
@@ -50,10 +81,11 @@ class Algo
         return count;
     }
 
-    static int[] CalcDamaged(char[] springs)
+    static bool CalcDamaged(char[] springs, int[] runs, out int[] nums)
     {
         List<int> res = new();
-        
+        nums = new int[] {};
+
         int runLen = 0;
         foreach(var c in springs)
         {
@@ -64,7 +96,14 @@ class Algo
             else if (c == '.')
             {
                 if(runLen > 0)
+                {
                     res.Add(runLen);
+                    if(res.Count > runs.Length)
+                        return false;
+
+                    if(res[res.Count-1] != runs[res.Count-1])
+                        return false;
+                }
                 runLen = 0;
             }
             else
@@ -74,6 +113,43 @@ class Algo
         if(runLen != 0)
             res.Add(runLen);
 
-        return res.ToArray();
+        nums = res.ToArray();
+        return true;
     }
+
+    public static long CountWays2(Cache cache, string l, int[] r)
+    {
+        long res;
+        if (l.Length == 0)
+            return r.Length == 0 ? 1 : 0;
+
+        if (r.Length == 0)
+            return l.Contains('#') ? 0 : 1;
+
+        var key = new Key { line = l, runs = r };
+
+        if (cache.TryGetValue(key, out res))
+            return res;
+
+        if (l[0].inside('.', '?'))
+            res += CountWays2(cache, l.Substring(1), r);
+
+        if (l[0].inside('#', '?'))
+        {
+            if (r[0] <= l.Length
+                && !l.Substring(0, r[0]).Contains('.')
+                && (r[0] == l.Length || l[r[0]] != '#'))
+            {
+                int c = r[0] + 1;
+                if(c >= l.Length)
+                    c = l.Length;
+
+                res += CountWays2(cache, l.Substring(c), r.Skip(1).ToArray());
+            }
+        }
+
+        cache[key] = res;
+        return res;
+    }
+
 }
