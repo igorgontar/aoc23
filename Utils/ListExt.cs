@@ -10,6 +10,15 @@ public static class ListExt
         }
     }
 
+    public static IEnumerable<string> AllLines(this TextReader reader)
+    {
+        string line;
+        while ((line = reader.ReadLine()) != null)
+        {
+            yield return line;
+        }
+    }
+
     public static bool eq(this int[] a1, params int[] a2)
     {
         return cmp(a1, a2);
