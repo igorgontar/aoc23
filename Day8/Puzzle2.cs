@@ -1,5 +1,6 @@
 using Utils;
 using Utils.Profiler;
+using static IOUtils;
 
 class Puzzle2
 {
@@ -38,7 +39,7 @@ class Puzzle2
             return c;
         }).ToArray();
 
-        counts.println();
+        println(counts);
         
         long res = AocMath.LCM(counts);
 

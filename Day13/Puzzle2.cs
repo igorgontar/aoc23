@@ -4,7 +4,7 @@ class Puzzle2
 
     class Grid : List<List<byte>> {}
 
-    public static long Solve(string file, int scale=1000*1000)
+    public static long Solve(string file)
     {
         Grid grid = new();
         long sum  = 0;

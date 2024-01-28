@@ -62,7 +62,7 @@ class Puzzle2b
             //     }
             //     Console.WriteLine();
             // }
-            if(++count % (100*1000*1000) == 0)
+            if(count % (100*1000*1000) == 0)
             {
                 var t = DateTime.Now;
                 var dt = t - startTime;
